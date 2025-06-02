@@ -6,7 +6,6 @@
 <title>Happy Birthday Manocha Ji</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;600&family=Comforter+Brush&family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
 <style>
-/* GLOBAL STYLES */
 * {
 margin: 0;
 padding: 0;
@@ -22,7 +21,6 @@ cursor: none;
 position: relative;
 }
 
-/* CANDLE CURSOR */
 .cursor {
 position: fixed;
 width: 12px;
@@ -59,11 +57,10 @@ box-shadow: 0 0 10px #ff6347, 0 0 20px rgba(255, 100, 71, 0.5);
 100% { transform: translateX(-50%) scale(1.1) rotate(1deg); }
 }
 
-/* SPARKLES */
 .sparkle {
 position: fixed;
-width: 4px;
-height: 4px;
+width: 6px;
+height: 6px;
 background: rgba(255,255,255,0.9);
 border-radius: 50%;
 pointer-events: none;
@@ -78,7 +75,6 @@ box-shadow: 0 0 6px rgba(255,255,255,0.8);
 100% { opacity: 0; transform: scale(2); }
 }
 
-/* MAIN STRUCTURE */
 .container {
 display: flex;
 flex-direction: column;
@@ -138,19 +134,26 @@ from { opacity: 0; transform: translateY(30px); }
 to { opacity: 1; transform: translateY(0); }
 }
 
+.photos-wrapper {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 40px;
+margin: 30px auto;
+flex-wrap: wrap;
+}
+
 .photo-container {
 width: 250px;
 height: 250px;
 border-radius: 50%;
 overflow: hidden;
-margin: 30px auto;
 box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 5px 15px rgba(0,0,0,0.2);
 border: 4px solid rgba(255,255,255,0.3);
 animation: photoGlow 4s ease-in-out infinite alternate;
 position: relative;
 }
 
-/* BIRTHDAY CAP */
 .birthday-cap {
 position: absolute;
 top: -25px;
@@ -231,7 +234,36 @@ height: 100%;
 object-fit: cover;
 }
 
-/* BALLOONS - Repositioned to not cover text */
+.music-controls {
+position: fixed;
+top: 20px;
+right: 20px;
+z-index: 1000;
+display: flex;
+gap: 10px;
+}
+
+.music-btn {
+background: linear-gradient(135deg, #ff69b4, #ff1493);
+border: none;
+border-radius: 50%;
+width: 50px;
+height: 50px;
+color: white;
+font-size: 18px;
+cursor: pointer;
+box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.music-btn:hover {
+transform: scale(1.1);
+box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
+}
+
 .balloon {
 position: fixed;
 width: 50px;
@@ -302,7 +334,6 @@ top: 70%;
 right: 5%;
 }
 
-/* CONFETTI */
 .confetti-piece {
 position: fixed;
 width: 8px;
@@ -322,7 +353,6 @@ opacity: 0;
 }
 }
 
-/* BOTTOM DECORATIONS */
 .bottom-decor {
 position: fixed;
 bottom: 0;
@@ -524,20 +554,42 @@ animation-delay: 1s;
 50% { transform: rotate(-45deg) scale(1.2); }
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
 h1 { font-size: 2.5rem; }
 .wish-line, .present-message { font-size: 1.2rem; }
-.photo-container { width: 200px; height: 200px; }
+.photo-container { width: 180px; height: 180px; }
 .balloon { width: 40px; height: 60px; }
+.photos-wrapper { 
+flex-direction: column; 
+gap: 20px; 
+}
+.music-controls {
+top: 10px;
+right: 10px;
+}
+.music-btn {
+width: 40px;
+height: 40px;
+font-size: 14px;
+}
+}
+
+@media (max-width: 480px) {
+.photo-container { width: 150px; height: 150px; }
 }
 </style>
 </head>
 <body>
-<!-- MUSIC AUDIO ELEMENT -->
 <audio id="birthdayMusic" loop preload="auto">
 <source src="birthday-song.mp3" type="audio/mpeg">
+<source src="birthday-song.ogg" type="audio/ogg">
+Your browser does not support the audio element.
 </audio>
+
+<div class="music-controls">
+<button class="music-btn" id="playPauseBtn" onclick="toggleMusic()">▶️</button>
+<button class="music-btn" id="volumeBtn" onclick="toggleVolume()">🔊</button>
+</div>
 
 <div class="cursor">
 <div class="candle-body"></div>
@@ -548,8 +600,10 @@ h1 { font-size: 2.5rem; }
 <h1>Hello Manocha Ji Happy Birthday</h1>
 <p class="wish-line">May your special day sparkle with joy and laughter ✨</p>
 <p class="present-message">Can't give you a present right now, so consider this small surprise my heartfelt gift to you my design chief ! 🎁</p>
+<p class="play-message">Maaf Kardena but had to use these photos 😊</p>
 <p class="play-message">Enjoy your day! Play with the balloons 🎈</p>
 
+<div class="photos-wrapper">
 <div class="photo-container">
 <div class="birthday-cap">
 <div class="cap-base">
@@ -557,7 +611,16 @@ h1 { font-size: 2.5rem; }
 </div>
 <div class="cap-brim"></div>
 </div>
-<img src="birthday-photo.jpg" alt="Birthday Photo" id="birthdayPhoto" />
+<img src="birthday-photo.jpg" alt="Birthday Photo 1" id="birthdayPhoto1" />
+</div>
+
+<div class="photo-container">
+<img src="13.jpg" alt="Birthday Photo 2" id="birthdayPhoto2" />
+</div>
+
+<div class="photo-container">
+<img src="12.jpg" alt="Birthday Photo 3" id="birthdayPhoto3" />
+</div>
 </div>
 
 <div class="balloon balloon1"></div>
@@ -584,31 +647,59 @@ h1 { font-size: 2.5rem; }
 </div>
 
 <script>
-// AUTOMATIC MUSIC SETUP
-const setupAutoMusic = () => {
+let isPlaying = false;
+let isMuted = false;
 const audio = document.getElementById('birthdayMusic');
-audio.volume = 0.4; // Set to 40% volume for pleasant background music
-  
-// Try to auto-play immediately
-audio.play().catch(() => {
-console.log('Autoplay blocked by browser, music will start on first user interaction');
-// If autoplay is blocked, start music on first user interaction
+const playPauseBtn = document.getElementById('playPauseBtn');
+const volumeBtn = document.getElementById('volumeBtn');
+
+audio.volume = 0.4;
+
+function toggleMusic() {
+if (isPlaying) {
+audio.pause();
+playPauseBtn.textContent = '▶️';
+isPlaying = false;
+} else {
+audio.play().catch(e => console.log('Play failed:', e));
+playPauseBtn.textContent = '⏸️';
+isPlaying = true;
+}
+}
+
+function toggleVolume() {
+if (isMuted) {
+audio.muted = false;
+volumeBtn.textContent = '🔊';
+isMuted = false;
+} else {
+audio.muted = true;
+volumeBtn.textContent = '🔇';
+isMuted = true;
+}
+}
+
+function setupAutoMusic() {
+audio.play().then(() => {
+playPauseBtn.textContent = '⏸️';
+isPlaying = true;
+}).catch(() => {
+console.log('Autoplay blocked - user interaction required');
 const startMusic = () => {
-audio.play();
+if (!isPlaying) {
+audio.play().then(() => {
+playPauseBtn.textContent = '⏸️';
+isPlaying = true;
+});
+}
 document.removeEventListener('click', startMusic);
-document.removeEventListener('keydown', startMusic);
 document.removeEventListener('touchstart', startMusic);
 };
-
 document.addEventListener('click', startMusic);
-document.addEventListener('keydown', startMusic);
 document.addEventListener('touchstart', startMusic);
 });
+}
 
-return audio;
-};
-
-// Cursor movement + sparkle trail
 const cursor = document.querySelector('.cursor');
 let mouseX = 0, mouseY = 0;
 
@@ -618,12 +709,11 @@ mouseY = e.pageY;
 cursor.style.left = mouseX + 'px';
 cursor.style.top = mouseY + 'px';
 
-// Create sparkles with random colors
-if (Math.random() > 0.7) {
+if (Math.random() > 0.4) {
 const sparkle = document.createElement('div');
 sparkle.className = 'sparkle';
-sparkle.style.left = (mouseX + (Math.random() - 0.5) * 20) + 'px';
-sparkle.style.top = (mouseY + (Math.random() - 0.5) * 20) + 'px';
+sparkle.style.left = (mouseX + (Math.random() - 0.5) * 25) + 'px';
+sparkle.style.top = (mouseY + (Math.random() - 0.5) * 25) + 'px';
 const colors = ['#ffd700', '#ff69b4', '#e6e6fa', '#ffdab9', '#ffffff'];
 sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
 document.body.appendChild(sparkle);
@@ -631,7 +721,6 @@ setTimeout(() => sparkle.remove(), 800);
 }
 });
 
-// Enhanced magnetic balloon repulsion effect
 const balloons = document.querySelectorAll('.balloon');
 
 document.addEventListener('mousemove', (e) => {
@@ -642,7 +731,7 @@ const balloonCenterY = rect.top + rect.height / 2;
 const deltaX = balloonCenterX - e.pageX;
 const deltaY = balloonCenterY - e.pageY;
 const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-const repelDistance = 120; // Distance at which repulsion starts
+const repelDistance = 120;
 
 if (distance < repelDistance) {
 const angle = Math.atan2(deltaY, deltaX);
@@ -656,18 +745,13 @@ balloon.style.transform = 'translate(0px, 0px) rotate(0deg)';
 });
 });
 
-// Enhanced confetti system - Burst on page load
 function createConfettiBurst() {
-// Initial big burst when page loads
 for (let i = 0; i < 150; i++) {
 setTimeout(() => {
 const confetti = document.createElement('div');
 confetti.className = 'confetti-piece';
-
-// Random shapes and colors
 const shapes = ['rectangle', 'circle', 'triangle'];
 const colors = ['#ff69b4', '#ffd700', '#e6e6fa', '#ffdab9', '#98fb98', '#87ceeb', '#ff6347', '#dda0dd'];
-
 const shape = shapes[Math.floor(Math.random() * shapes.length)];
 const color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -679,7 +763,7 @@ confetti.style.height = '6px';
 confetti.style.width = '0';
 confetti.style.height = '0';
 confetti.style.borderLeft = '4px solid transparent';
-confetti.style.borderRight = '4px solid transparent'; 
+confetti.style.borderRight = '4px solid transparent';
 confetti.style.borderBottom = `8px solid ${color}`;
 confetti.style.background = 'transparent';
 } else {
@@ -692,13 +776,11 @@ if (shape !== 'triangle') {
 confetti.style.background = color;
 }
 
-// Start confetti from center and spread outward
 const centerX = window.innerWidth / 2;
 const spreadX = (Math.random() - 0.5) * window.innerWidth;
 confetti.style.left = (centerX + spreadX) + 'px';
 confetti.style.animationDuration = (2 + Math.random() * 4) + 's';
 confetti.style.animationDelay = Math.random() * 1 + 's';
-
 document.body.appendChild(confetti);
 
 setTimeout(() => {
@@ -732,17 +814,13 @@ confetti.remove();
 }
 }
 
-// Start confetti and music on load
 window.addEventListener('load', () => {
-setupAutoMusic(); // Initialize automatic music
+setupAutoMusic();
 createConfettiBurst();
-// Repeat confetti every 10 seconds
 setInterval(createContinuousConfetti, 10000);
 });
 
-// Add some interactive elements
 document.addEventListener('click', (e) => {
-// Create burst of sparkles on click
 for (let i = 0; i < 15; i++) {
 setTimeout(() => {
 const sparkle = document.createElement('div');
